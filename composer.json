@@ -1,0 +1,17 @@
+{
+    "name": "cstsi/dbe2_202602_php_mvc",
+    "type": "projecty",
+    "require": {
+        "vlucas/phpdotenv": "5.6.x-dev"
+    },
+    "require-dev": {
+        "psy/psysh": "0.12.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CSTSI\\Dbe2\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
