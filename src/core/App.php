@@ -10,6 +10,12 @@ class App
     {
         $dotenv = Dotenv::createImmutable(__DIR__."/../../");
         $dotenv->load();
-        echo "<br>Conectar no banco de nome: " . $_ENV['DB_NAME'];
+        // echo "<br>Conectar no banco de nome: " . $_ENV['DB_NAME'];
+    }
+
+    public static function init(){
+        self::handleEnv();
+        require_once __DIR__.'/../config/routes.php';
+        Route::resolve($routes);
     }
 }
