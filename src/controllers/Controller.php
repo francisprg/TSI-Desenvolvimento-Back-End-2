@@ -2,10 +2,12 @@
 
 namespace CSTSI\Dbe2\controllers;
 
-class Controller {
+abstract class Controller {
 
-    public static function ola(){
-        echo "Olá Mundo!!!";
-    }
+    public abstract function index();
+
+    // public static function ola(){
+    //     echo "Olá Mundo!!!";
+    // }
 
 }
