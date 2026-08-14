@@ -176,7 +176,7 @@ Define metadados e dependências do projeto:
 #### **vlucas/phpdotenv**
 - Carrega variáveis de ambiente do arquivo `.env`
 - Permite configuração segura de credenciais
-- Inicializado em `src/app/core/App.php`
+- Inicializado em `src/core/App.php`
 
 #### **psy/psysh**
 - Shell interativo para PHP (REPL)
