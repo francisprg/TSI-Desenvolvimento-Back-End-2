@@ -2,8 +2,6 @@
 
 namespace CSTSI\Dbe2\controllers;
 
-use CSTSI\Dbe2\controllers\Controller;
-
 class ProdutoController extends Controller{
 
     public function index(){
@@ -22,16 +20,16 @@ class ProdutoController extends Controller{
         echo "Recebe os dados do formulário e guarda no banco";
     }
 
-    public function edit(){
-        echo "Mostrar o formulário de edição!!";
+    public function edit($id){
+        echo "Mostrar o formulário de edição com os dados do produto de ID: $id!!";
     }
 
-    public function update(){
-        echo "Recebe dados e atualiza no banco";
+    public function update($id){
+        echo "Recebe dados e atualiza no banco o produto de ID: $id";
     }
 
-    public function delete(){
-        echo "Mostrar um formulário de remoção";
+    public function delete($id){
+        echo "Mostrar um formulário de remoção com os dados do produto de ID:$id";
     }
 
     public function remove(){
