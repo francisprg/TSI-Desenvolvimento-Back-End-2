@@ -7,7 +7,7 @@
     "require-dev": {
         "psy/psysh": "0.12.x-dev"
     },
-    "license": "MIT",
+    "license": "GPL-3.0-only",
     "autoload": {
         "psr-4": {
             "CSTSI\\Dbe2\\": "src/"
