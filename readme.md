@@ -55,6 +55,69 @@ O arquivo `compose.yaml` define três serviços principais:
 - **Rede**: `app_net` (tipo bridge) conecta todos os serviços
 - **Volume**: `vol_db` persiste dados do banco de dados entre reinicializações
 
+
+## 🔧 Dockerfile - Construção da Imagem
+
+O `Dockerfile` define como a imagem Docker é construída:
+
+```dockerfile
+FROM php:8.5.9-alpine
+```
+- Base: PHP 8.5.9 em Alpine Linux (leve e seguro)
+
+### Instalação de Dependências
+```dockerfile
+RUN apk update && apk add --no-cache \
+    libpq-dev \
+    bash \
+    curl \
+    vim \
+    unzip
+```
+- Instala ferramentas essenciais e suporte a PostgreSQL
+
+### Extensões PHP
+```dockerfile
+RUN docker-php-ext-install pdo_mysql pdo_pgsql
+```
+- PDO MySQL: Suporte a banco de dados MariaDB/MySQL
+- PDO PostgreSQL: Suporte a banco de dados PostgreSQL
+
+### Composer
+```dockerfile
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+```
+- Copia Composer da imagem oficial para usar no container
+
+### Configuração Final
+```dockerfile
+WORKDIR /var/www/html
+COPY . .
+EXPOSE $APP_PORT
+```
+- Define diretório de trabalho
+- Copia arquivos da aplicação
+- Expõe a porta configurada
+
+---
+
+
+
+## 📝 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto e altere os valores da variáveis de ambiente:
+
+```env
+APP_PORT=8000
+FORWARD_DB_PORT=3308
+FORWARD_MYADMIN_PORT=8091
+
+DB_DRIVER=mariadb
+DB_USER=root
+DB_PASS=r00t
+DB_NAME=php_app
+```
+
 ---
 
 ## 🚀 Como Usar Docker Compose
@@ -115,6 +178,41 @@ docker compose exec app_php bash
 # Executar comando específico
 docker compose exec app_php php -v
 ```
+
+---
+
+## 🔄 Fluxo de Inicialização
+
+1. **Docker Compose** inicia os containers
+2. **Container PHP**:
+   - Instala dependências via `composer install`
+   - Executa `composer run dev` (inicia servidor)
+3. **Container MariaDB**:
+   - Inicializa banco de dados
+   - Executa health checks
+4. **Container PhpMyAdmin**: 
+   - Conecta ao MariaDB
+   - Disponibiliza interface web
+5. **Aplicação**:
+   - `src/index.php` carrega `App::init()`
+   - `App` Carrega variáveis `.env` e executa a resolução de rotas `Router::resolve()`
+   - Router processa rotas de acordo com requisições
+   - As rotas seguem o padrão `controller/method/param` 
+   - As rotas são configuradas em `src/config/routes.php`
+   - Cada rota mapeia uma classe do tipo Controller `['produtos'=>ProdutoController::class]`
+   - `Controllers` acessam dados via `Models` e redirecionam para `Views`
+
+---
+
+## 🌐 Acessando a Aplicação
+
+Após iniciar com `docker compose up`:
+
+- **Aplicação PHP**: http://localhost:8000
+- **PhpMyAdmin**: http://localhost:8091
+- **Banco de Dados**: localhost:3306
+  - Usuário: definido em `.env`
+  - Senha: definida em `.env`
 
 ---
 
@@ -226,102 +324,6 @@ composer exec psysh
 
 ---
 
-## 🔧 Dockerfile - Construção da Imagem
-
-O `Dockerfile` define como a imagem Docker é construída:
-
-```dockerfile
-FROM php:8.5.9-alpine
-```
-- Base: PHP 8.5.9 em Alpine Linux (leve e seguro)
-
-### Instalação de Dependências
-```dockerfile
-RUN apk update && apk add --no-cache \
-    libpq-dev \
-    bash \
-    curl \
-    vim \
-    unzip
-```
-- Instala ferramentas essenciais e suporte a PostgreSQL
-
-### Extensões PHP
-```dockerfile
-RUN docker-php-ext-install pdo_mysql pdo_pgsql
-```
-- PDO MySQL: Suporte a banco de dados MariaDB/MySQL
-- PDO PostgreSQL: Suporte a banco de dados PostgreSQL
-
-### Composer
-```dockerfile
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-```
-- Copia Composer da imagem oficial para usar no container
-
-### Configuração Final
-```dockerfile
-WORKDIR /var/www/html
-COPY . .
-EXPOSE $APP_PORT
-```
-- Define diretório de trabalho
-- Copia arquivos da aplicação
-- Expõe a porta configurada
-
----
-
-## 🔄 Fluxo de Inicialização
-
-1. **Docker Compose** inicia os containers
-2. **Container PHP**:
-   - Instala dependências via `composer install`
-   - Executa `composer run dev` (inicia servidor)
-3. **Container MariaDB**:
-   - Inicializa banco de dados
-   - Executa health checks
-4. **Container PhpMyAdmin**: 
-   - Conecta ao MariaDB
-   - Disponibiliza interface web
-5. **Aplicação**:
-   - `src/index.php` carrega `App::init()`
-   - `App` Carrega variáveis `.env` e executa a resolução de rotas `Router::resolve()`
-   - Router processa rotas de acordo com requisições
-   - As rotas seguem o padrão `controller/method/param` 
-   - As rotas são configuradas em `src/config/routes.php`
-   - Cada rota mapeia uma classe do tipo Controller `['produtos'=>ProdutoController::class]`
-   - `Controllers` acessam dados via `Models` e redirecionam para `Views`
-
----
-
-## 🌐 Acessando a Aplicação
-
-Após iniciar com `docker compose up`:
-
-- **Aplicação PHP**: http://localhost:8000
-- **PhpMyAdmin**: http://localhost:8091
-- **Banco de Dados**: localhost:3306
-  - Usuário: definido em `.env`
-  - Senha: definida em `.env`
-
----
-
-## 📝 Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-APP_PORT=8000
-FORWARD_DB_PORT=3308
-FORWARD_MYADMIN_PORT=8091
-
-DB_DRIVER=mariadb
-DB_USER=root
-DB_PASS=r00t
-DB_NAME=php_app
-```
-
----
 
 ## ✅ Checklist de Inicialização
 
