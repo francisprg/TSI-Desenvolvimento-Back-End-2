@@ -15,6 +15,23 @@ No **Tópico 01** desenvolvemos um projeto web em PHP puro, moderno, de acordo c
 
 ---
 
+## 📝 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto e altere os valores da variáveis de ambiente:
+
+```env
+APP_PORT=8000
+FORWARD_DB_PORT=3308
+FORWARD_MYADMIN_PORT=8091
+
+DB_DRIVER=mariadb
+DB_USER=root
+DB_PASS=r00t
+DB_NAME=php_app
+```
+
+---
+
 ## 🐳 Docker e Docker Compose
 
 ### O que é Docker?
@@ -101,24 +118,6 @@ EXPOSE $APP_PORT
 
 ---
 
-
-
-## 📝 Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto e altere os valores da variáveis de ambiente:
-
-```env
-APP_PORT=8000
-FORWARD_DB_PORT=3308
-FORWARD_MYADMIN_PORT=8091
-
-DB_DRIVER=mariadb
-DB_USER=root
-DB_PASS=r00t
-DB_NAME=php_app
-```
-
----
 
 ## 🚀 Como Usar Docker Compose
 
