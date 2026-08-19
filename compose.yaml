@@ -1,62 +1,117 @@
-name: dbe2-202602-app-mvc
+name: atv1-app_php-1
+# Nome do projeto — usado como prefixo em containers, rede e volumes criados
+
 services: 
+  # ---------- SERVIÇO 1: APLICAÇÃO PHP ----------
   app_php:
     build:
       dockerfile: ./Dockerfile
+      # Arquivo usado como receita pra construir a imagem desse serviço
       args:
-          MYSQL_CLIENT: mariadb-client
+          POSTGRES_CLIENT: postgresql-client
+          # Variável enviada pro Dockerfile durante o build.
+          # Usada lá dentro pra instalar o cliente de linha de comando do Postgres
       context: .
+          # Pasta de onde o build parte (raiz do projeto)
+
     command: > 
             sh -c "cd /var/www/html/ &&
                     composer i &&
                     composer run start;"
+    # Comando executado quando o container inicia:
+    # entra na pasta do projeto → instala dependências PHP (composer install)
+    # → roda o script que sobe o servidor da aplicação
+
     ports:
       - ${APP_PORT:-8083}:80
+    # Liga a porta 8083 da sua máquina até a porta 80 de dentro do container.
+    # É assim que você acessa o app pelo navegador em localhost:8083
+
     volumes:
         - '.:/var/www/html'
+    # Espelha a pasta do projeto (na sua máquina) para dentro do container.
+    # Qualquer edição de código local aparece na hora dentro do container
+
     networks:
       - app_net
+    # Conecta esse container à rede interna "app_net", permitindo
+    # que ele se comunique com os outros serviços pelo nome
+
     depends_on:
       - app_db
+    # Garante que esse serviço só comece a subir depois que app_db iniciar
+
+  # ---------- SERVIÇO 2: BANCO DE DADOS ----------
   app_db:
-    image: 'mariadb:latest'
+    image: 'postgres:16'
+    # Imagem oficial do PostgreSQL versão 16, baixada pronta do Docker Hub
+
     ports:
-        - '${FORWARD_DB_PORT:-3306}:3306'
+        - '${FORWARD_DB_PORT:-5432}:5432'
+    # Expõe a porta do banco pra fora do Docker também (útil pra conectar
+    # com um client externo tipo DBeaver). 5432 é a porta padrão do Postgres
+
     environment:
-        MYSQL_ROOT_PASSWORD: '${DB_PASS}'
-        MYSQL_ROOT_HOST: '%'
-        MYSQL_DATABASE: '${DB_NAME}'
-        MYSQL_USER: '${DB_USER}'
-        MYSQL_PASSWORD: '${DB_PASS}'
-        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        POSTGRES_PASSWORD: '${DB_PASS}'
+        # Define a senha do usuário criado abaixo
+
+        POSTGRES_DB: '${DB_NAME}'
+        # Nome do banco de dados criado automaticamente na primeira inicialização
+
+        POSTGRES_USER: '${DB_USER}'
+        # Nome do usuário criado, já com permissão total sobre o POSTGRES_DB
+
     volumes:
-        - 'vol_db:/var/lib/mysql'
+        - 'vol_db:/var/lib/postgresql/data'
+    # Guarda os arquivos de dados do banco num volume gerenciado pelo Docker.
+    # Isso garante que os dados persistem mesmo se o container for recriado
+
     networks:
         - app_net
+    # Mesma rede interna, pra outros serviços acharem esse container pelo nome "app_db"
+
     healthcheck:
         test:
-            - CMD
-            - healthcheck.sh
-            - '--connect'
-            - '--innodb_initialized'
+            - CMD-SHELL
+            - pg_isready -U ${DB_USER} -d ${DB_NAME}
+        # Comando executado periodicamente dentro do container pra checar
+        # se o Postgres já está de pé e aceitando conexões de verdade
         retries: 3
         timeout: 5s
-  phpmyadmin:
-        image: 'phpmyadmin/phpmyadmin:latest'
+        # Tenta até 3 vezes, esperando no máximo 5 segundos por tentativa
+
+  # ---------- SERVIÇO 3: INTERFACE WEB DO BANCO ----------
+  pgadmin:
+        image: 'dpage/pgadmin4:latest'
+        # Imagem pronta com a interface web pra administrar o Postgres visualmente
+
         ports:
-          - '${FORWARD_MYADMIN_PORT:-8093}:80'
+          - '${FORWARD_PGADMIN_PORT:-8093}:80'
+        # Acessa a interface pelo navegador em localhost:8093
+
         environment:
-            PMA_HOST: 'app_db'
+            PGADMIN_DEFAULT_EMAIL: '${PGADMIN_EMAIL:-admin@admin.com}'
+            PGADMIN_DEFAULT_PASSWORD: '${PGADMIN_PASSWORD:-admin}'
+            # Credenciais de login da própria interface do pgAdmin
+            # (depois de logar, você adiciona o servidor "app_db" manualmente)
+
         networks:
             - app_net
+        # Mesma rede interna, pra conseguir enxergar o app_db pelo nome
+
         depends_on:
             - app_db
+        # Só sobe depois que app_db começar a subir
+
+# ---------- REDE ----------
 networks:
   app_net:
-    ipam:
-      config:
-        - subnet: 10.255.0.0/24
     driver: bridge
+    # Tipo de rede virtual isolada, usada pra comunicação entre containers
+    # dentro da mesma máquina
+
+# ---------- VOLUME ----------
 volumes:
   vol_db:
     driver: local
+    # Volume armazenado no disco da própria máquina que roda o Docker

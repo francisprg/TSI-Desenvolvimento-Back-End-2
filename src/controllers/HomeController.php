@@ -2,10 +2,10 @@
 
 namespace CSTSI\Dbe2\controllers;
 
-class ProdutoController extends Controller{
+class HomeController extends Controller{
 
     public function index(){
-        echo "<br>Listar Produtos";
+        echo "<br>Pagina Inicial";
     }
 
     public function show($id){
