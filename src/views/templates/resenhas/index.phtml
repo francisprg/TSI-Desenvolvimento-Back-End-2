@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Resenhas</title>
+</head>
+<body>
+	<h2>Lista de Resenhas</h2>
+	<a href="/resenhas/create">&plus; Cadastrar Nova Resenha</a>
+
+	<?php if (empty($resenhas)): ?>
+		<p>Nenhuma resenha cadastrada ainda.</p>
+	<?php else: ?>
+		<ul>
+			<?php foreach ($resenhas as $resenha): ?>
+				<li>
+					<a href="/resenhas/show/<?php echo $resenha['idresenha']?>">
+						<?php echo $resenha['idresenha'] ?>
+					</a>
+					| <?php echo htmlspecialchars(mb_strimwidth($resenha['texto'], 0, 80, '...')) ?>
+					| <?php echo $resenha['datapublicacao'] ?>
+					<div style='display:inline'>
+						| <a href="/resenhas/edit/<?php echo $resenha['idresenha']?>">
+							Editar
+						</a>
+						| <a href="/resenhas/delete/<?php echo $resenha['idresenha']?>">
+							Remover
+						</a>
+					</div>
+				</li>
+			<?php endforeach ?>
+		</ul>
+	<?php endif; ?>
+</body>
+</html>

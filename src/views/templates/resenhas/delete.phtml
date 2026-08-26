@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Resenha</title>
+</head>
+<body>
+	<h2>Remover Resenha</h2>
+    <ul>
+			<li>
+				<p>Resenha #<?php echo $resenha['idresenha'] ?></p>
+				<p>Data de Publicação: <?php echo $resenha['datapublicacao'] ?></p>
+                <p><?php echo nl2br(htmlspecialchars($resenha['texto'])) ?></p>
+			</li>
+			<hr>
+            <p>Tem certeza que deseja remover esta resenha?</p>
+            <form action="/resenhas/remove" method="POST">
+                <input type="hidden" name="idresenha" value="<?php echo $resenha['idresenha'] ?>">
+                <input type="submit" value="Confirmar Remoção">
+            </form>
+            <a href="/resenhas">Cancelar</a>
+	</ul>
+</body>
+</html>

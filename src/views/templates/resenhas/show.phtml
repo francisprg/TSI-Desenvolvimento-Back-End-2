@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Resenha</title>
+</head>
+<body>
+	<h2>Resenha #<?php echo $resenha['idresenha'];?></h2>
+    <ul>
+			<li>
+				<p>Data de Publicação: <?php echo $resenha['datapublicacao'] ?></p>
+                <p><?php echo nl2br(htmlspecialchars($resenha['texto'])) ?></p>
+			</li>
+			<div>
+				<a href="/resenhas/edit/<?php echo $resenha['idresenha']?>">
+					Editar
+				</a>
+				| <a href="/resenhas/delete/<?php echo $resenha['idresenha']?>">
+					Remover
+				</a>
+			</div>
+			<hr>
+            <a href="/resenhas">Voltar</a>
+	</ul>
+</body>
+</html>
