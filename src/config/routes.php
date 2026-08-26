@@ -1,9 +1,8 @@
 <?php
 
-use CSTSI\Dbe2\controllers\HomeController;
 use CSTSI\Dbe2\controllers\LivroController;
 
 $routes = [
-    '/'=> HomeController::class,
+     '/'=> LivroController::class,
     'livros'=> LivroController::class,
 ];

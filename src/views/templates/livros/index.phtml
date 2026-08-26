@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Livros</title>
+</head>
+<body>
+	<h2>Lista de Livros</h2>
+	<a href="/livros/create">&plus; Cadastrar Novo Livro</a>
+    <ul>
+		<?php foreach ($livros as $livro): ?>
+			<li>
+				<a href="/livros/show/<?php echo $livro['idlivro']?>">
+					<?php echo $livro['idlivro'] ?>
+				</a>
+				| <?php echo $livro['titulo'] ?> 
+				| <?php echo $livro['autor'] ?>
+				<div style='display:inline'>
+					| <a href="/livros/edit/<?php echo $livro['idlivro']?>">
+						Editar
+					</a> 
+					| <a href="/livros/delete/<?php echo $livro['idlivro']?>">
+						Remover
+					</a>
+				</div>
+			</li>
+		<?php endforeach ?>
+	</ul>
+</body>
+</html>

@@ -10,16 +10,16 @@ class Route
 
     // localhost:porto/controlers/method/param
     public static function resolve(array $routes): void {
-        $uriQuery = self::parseURI();
+        $uriQuery = self::parseURI(); //ParseURL faz a quebra das rotas
 
         $class = null;
 		$method = null;
 		$param = null;
 		
-		if ($uriQuery) {
-			$class_name = $uriQuery[0];
-			if (count($uriQuery) > 1) {
-				$method = $uriQuery[1];
+		if ($uriQuery) {  //Se houver uma ROTA/URLQUERY
+			$class_name = $uriQuery[0]; //$urlquery[0] referindo-se a o elemento de indice 0 no array que seria o nome da classe
+			if (count($uriQuery) > 1) { //Contagem, verifica se dentro do URLQUERY  tem mais de um elemento alem  dO controller
+				$method = $uriQuery[1]; //Method recebe o metodo que o parse Url quebrou
 				$param = (count($uriQuery) > 2) ? $uriQuery[2] : null;
 			}
 

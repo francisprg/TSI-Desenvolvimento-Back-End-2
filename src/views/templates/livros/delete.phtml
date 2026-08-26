@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Livro</title>
+</head>
+<body>
+	<h2>Remover Livro</h2>
+    <ul>
+			<li>
+				<a href="/livros/show/<?php echo $livro['idlivro']?>">
+					<?php echo $livro['idlivro'] ?>
+				</a>
+				| <?php echo $livro['titulo'] ?> 
+				| <?php echo $livro['autor'] ?>
+                <p>ISBN: <?php echo $livro['isbn'] ?></p>
+                <p>Editora: <?php echo $livro['editora'] ?></p>
+                <p>Ano de Publicação: <?php echo $livro['ano_publicacao'] ?></p>
+                <p>Páginas: <?php echo $livro['numero_paginas'] ?></p>
+                <p><?php echo $livro['sinopse']?></p>
+			</li>
+			<hr>
+            <p>Tem certeza que deseja remover este livro?</p>
+            <form action="/livros/remove" method="POST">
+                <input type="hidden" name="idlivro" value="<?php echo $livro['idlivro'] ?>">
+                <input type="submit" value="Confirmar Remoção">
+            </form>
+            <a href="/livros">Cancelar</a>
+	</ul>
+</body>
+</html>

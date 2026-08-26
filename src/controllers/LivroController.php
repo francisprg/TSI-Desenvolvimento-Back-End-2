@@ -2,38 +2,102 @@
 
 namespace CSTSI\Dbe2\controllers;
 
-class LivroController extends Controller{
+use CSTSI\Dbe2\models\livroModel;
+use CSTSI\Dbe2\models\livro;
+use Exception;
+use Override;
 
-    public function index(){
-        echo "<br>Pagina Inicial";
+class LivroController extends Controller
+{
+
+    public function __construct()
+    {
+        try {
+            parent::__construct();
+            $this->model = new livroModel();
+        } catch (Exception $error) {
+            throw $error;
+        }
     }
 
-    public function show($id){
-         echo "<br>Mostrar os dados do livro de id:$id";
+
+    public function index()
+    {
+        $livros = $this->model->read();
+
+        $this->view->load('livros/index', ['livros' => $livros]);
     }
 
-    public function create(){
-        echo "Mostrar um formulário";
+
+    public function show(int $id)
+    {
+        try {
+            $this->view->load('livros/show', ['livro' => $this->model->read($id)]);
+        } catch (Exception $error) {
+            echo "Produto de id $id não encontrado";
+        }
     }
 
-    public function store(){
-        echo "Recebe os dados do formulário e guarda no banco";
+    public function create()
+    {
+        $this->view->load('livros/create');
     }
 
-    public function edit($id){
-        echo "Mostrar o formulário de edição com os dados do produto de ID: $id!!";
+    public function store()
+    {
+        $livro = new Livro(
+            $_POST['titulo'],
+            $_POST['autor'],
+            $_POST['isbn'] ?? null,
+            $_POST['editora'] ?? null,
+            !empty($_POST['anoPublicacao']) ? (int)$_POST['anoPublicacao'] : null,
+            $_POST['sinopse'] ?? null,
+            !empty($_POST['numeroPaginas']) ? (int)$_POST['numeroPaginas'] : null
+        );
+
+        $this->model->create($livro);
     }
 
-    public function update($id){
-        echo "Recebe dados e atualiza no banco o produto de ID: $id";
+    public function edit(int $id)
+    {
+        try {
+            $livro = $this->model->read($id);
+            $this->view->load('livros/edit', ['livro' => $livro]);
+        } catch (Exception $error) {
+            echo "Livro de id $id não encontrado";
+        }
     }
 
-    public function delete($id){
-        echo "Mostrar um formulário de remoção com os dados do produto de ID:$id";
+   public function update(int $id)
+{
+    $livro = new Livro(
+        $_POST['titulo'],
+        $_POST['autor'],
+        $_POST['isbn'] ?? null,
+        $_POST['editora'] ?? null,
+        !empty($_POST['ano_publicacao']) ? (int)$_POST['ano_publicacao'] : null,
+        $_POST['sinopse'] ?? null,
+        !empty($_POST['numero_paginas']) ? (int)$_POST['numero_paginas'] : null,
+        $id
+    );
+
+    if ($this->model->update($livro))
+        header('Location:/livros');
+    else
+        echo "Erro ao atualizar livro!!!";
     }
 
-    public function remove(){
-        echo "Receber a comnfirmação de remoção e remover do banco";
+    public function delete($id)
+    {
+        $this->view->load('livros/delete', ['livro' => $this->model->read($id)]);
     }
-    
+
+    public function remove()
+    {
+        $id = (int) $_POST['idlivro'];
+        if ($this->model->delete($id))
+            header('Location:/livros');
+        else
+            echo "Erro ao remover livro!!!";
+    }
 }

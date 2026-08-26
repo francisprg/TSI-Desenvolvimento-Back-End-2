@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Livro</title>
+</head>
+<body>
+	<h2>Livro: <?php echo $livro['titulo'];?></h2>
+    <ul>
+			<li>
+				<a href="/livros/show/<?php echo $livro['idlivro']?>">
+					<?php echo $livro['idlivro'] ?>
+				</a>
+				| <?php echo $livro['titulo'] ?> 
+				| <?php echo $livro['autor'] ?>
+                <p>ISBN: <?php echo $livro['isbn'] ?></p>
+                <p>Editora: <?php echo $livro['editora'] ?></p>
+                <p>Ano de Publicação: <?php echo $livro['ano_publicacao'] ?></p>
+                <p>Páginas: <?php echo $livro['numero_paginas'] ?></p>
+                <p><?php echo $livro['sinopse']?></p>
+			</li>
+			<div>
+				<a href="/livros/edit/<?php echo $livro['idlivro']?>">
+					Editar
+				</a> 
+				| <a href="/livros/delete/<?php echo $livro['idlivro']?>">
+					Remover
+				</a>
+			</div>
+			<hr>
+            <a href="/livros">Voltar</a>
+	</ul>
+</body>
+</html>
