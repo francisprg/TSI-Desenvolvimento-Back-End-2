@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Autor</title>
+</head>
+<body>
+	<h2>Autor: <?php echo htmlspecialchars($autor['nome']);?></h2>
+    <ul>
+			<li>
+                <p><?php echo nl2br(htmlspecialchars($autor['bio'] ?? '')) ?></p>
+			</li>
+			<div>
+				<a href="/autores/edit/<?php echo $autor['idautor']?>">
+					Editar
+				</a>
+				| <a href="/autores/delete/<?php echo $autor['idautor']?>">
+					Remover
+				</a>
+			</div>
+			<hr>
+            <a href="/autores">Voltar</a>
+	</ul>
+</body>
+</html>

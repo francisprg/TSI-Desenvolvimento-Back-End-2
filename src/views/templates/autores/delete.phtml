@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Autor</title>
+</head>
+<body>
+	<h2>Remover Autor</h2>
+    <ul>
+			<li>
+				<p>Nome: <?php echo htmlspecialchars($autor['nome']) ?></p>
+                <p><?php echo nl2br(htmlspecialchars($autor['bio'] ?? '')) ?></p>
+			</li>
+			<hr>
+            <p>Tem certeza que deseja remover este autor?</p>
+            <form action="/autores/remove" method="POST">
+                <input type="hidden" name="idautor" value="<?php echo $autor['idautor'] ?>">
+                <input type="submit" value="Confirmar Remoção">
+            </form>
+            <a href="/autores">Cancelar</a>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Autores</title>
+</head>
+<body>
+	<h2>Lista de Autores</h2>
+	<a href="/autores/create">&plus; Cadastrar Novo Autor</a>
+
+	<?php if (empty($autores)): ?>
+		<p>Nenhum autor cadastrado ainda.</p>
+	<?php else: ?>
+		<ul>
+			<?php foreach ($autores as $autor): ?>
+				<li>
+					<a href="/autores/show/<?php echo $autor['idautor']?>">
+						<?php echo $autor['idautor'] ?>
+					</a>
+					| <?php echo htmlspecialchars($autor['nome']) ?>
+					<div style='display:inline'>
+						| <a href="/autores/edit/<?php echo $autor['idautor']?>">
+							Editar
+						</a>
+						| <a href="/autores/delete/<?php echo $autor['idautor']?>">
+							Remover
+						</a>
+					</div>
+				</li>
+			<?php endforeach ?>
+		</ul>
+	<?php endif; ?>
+</body>
+</html>

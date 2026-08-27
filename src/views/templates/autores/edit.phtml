@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Editar Autor</title>
+</head>
+
+<body>
+    <h1>Editar Autor</h1>
+    <form action="/autores/update/<?php echo $autor['idautor'] ?>" method="POST">
+        <table>
+            <tr>
+                <td>Nome:</td>
+                <td><input type="text" name="nome" value="<?php echo htmlspecialchars($autor['nome']) ?>" required/></td>
+            </tr>
+            <tr>
+                <td>Bio:</td>
+                <td><textarea name="bio" cols="30" rows="10"><?php echo htmlspecialchars($autor['bio'] ?? '') ?></textarea></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2"><input type="submit" value="Salvar Alterações"/></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2"><a href="/autores" style="display: inline">&#9664;&nbsp;Voltar</a></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
