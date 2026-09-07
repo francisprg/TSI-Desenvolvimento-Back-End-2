@@ -6,6 +6,8 @@
 <body>
     <h1>Livros</h1>
 
+    <a href="{{ route('home') }}">Home</a>
+
     <a href="{{ route('livros.create') }}">Novo Livro</a>
 
     <ul>
