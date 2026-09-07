@@ -1,9 +1,19 @@
 <?php
 
+use App\Http\Controllers\AutorController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\ResenhaController;
 use Illuminate\Support\Facades\Route;
+ 
 
+Route::get('/', function () {
+
+    return view('home');
+
+})->name('home');
+
+
+//ROTAS DE RESENHAS
 
 Route::get('/resenhas', [ResenhaController::class, 'index'])->name('resenhas.index');
 
@@ -20,6 +30,8 @@ Route::put('/resenhas/{resenha}', [ResenhaController::class, 'update'])->name('r
 Route::delete('/resenhas/{resenha}', [ResenhaController::class, 'destroy'])->name('resenhas.destroy');
 
 
+// ROTAS DE LIVROS
+
 Route::get('/livros', [LivroController::class, 'index'])->name('livros.index');
 
 Route::get('/livros/create', [LivroController::class, 'create'])->name('livros.create');
@@ -35,4 +47,18 @@ Route::delete('/livros/{livro}', [LivroController::class, 'destroy'])->name('liv
 Route::get('/livros/{livro}', [LivroController::class, 'show'])->name('livros.show');
 
 
+// ROTAS DE AUTORES
 
+Route::get('/autores', [AutorController::class, 'index'])->name('autores.index');
+
+Route::get('/autores/create', [AutorController::class, 'create'])->name('autores.create');
+
+Route::post('/autores', [AutorController::class, 'store'])->name('autores.store');
+
+Route::get('/autores/{autor}/edit', [AutorController::class, 'edit'])->name('autores.edit');
+
+Route::put('/autores/{autor}', [AutorController::class, 'update'])->name('autores.update');
+
+Route::delete('/autores/{autor}', [AutorController::class, 'destroy'])->name('autores.destroy');
+
+Route::get('/autores/{autor}', [AutorController::class, 'show'])->name('autores.show');
