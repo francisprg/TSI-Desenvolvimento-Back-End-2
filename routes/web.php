@@ -13,52 +13,69 @@ Route::get('/', function () {
 })->name('home');
 
 
-//ROTAS DE RESENHAS
+//Agrupamento de rotas RESENHA
 
-Route::get('/resenhas', [ResenhaController::class, 'index'])->name('resenhas.index');
+Route::prefix('resenhas')
+    ->controller(ResenhaController::class)
+    ->name('resenhas.')
+    ->group(function () {
 
-Route::get('/resenhas/create', [ResenhaController::class, 'create'])->name('resenhas.create');
+            Route::get('/', 'index')->name('index');
 
-Route::post('/resenhas', [ResenhaController::class, 'store'])->name('resenhas.store');
+            Route::get('/create','create')->name('create');
 
-Route::get('/resenhas/{resenha}', [ResenhaController::class, 'show'])->name('resenhas.show');
+            Route::post('/','store')->name('store');
 
-Route::get('/resenhas/{resenha}/edit', [ResenhaController::class, 'edit'])->name('resenhas.edit');
+            Route::get('/{resenha}', 'show')->name('show');
 
-Route::put('/resenhas/{resenha}', [ResenhaController::class, 'update'])->name('resenhas.update');
+            Route::get('/{resenha}/edit','edit')->name('edit');
 
-Route::delete('/resenhas/{resenha}', [ResenhaController::class, 'destroy'])->name('resenhas.destroy');
+            Route::put('/{resenha}','update')->name('update');
 
-
-// ROTAS DE LIVROS
-
-Route::get('/livros', [LivroController::class, 'index'])->name('livros.index');
-
-Route::get('/livros/create', [LivroController::class, 'create'])->name('livros.create');
-
-Route::post('/livros', [LivroController::class, 'store'])->name('livros.store');
-
-Route::get('/livros/{livro}/edit', [LivroController::class, 'edit'])->name('livros.edit');
-
-Route::put('/livros/{livro}', [LivroController::class, 'update'])->name('livros.update');
-
-Route::delete('/livros/{livro}', [LivroController::class, 'destroy'])->name('livros.destroy');
-
-Route::get('/livros/{livro}', [LivroController::class, 'show'])->name('livros.show');
+            Route::delete('/{resenha}', 'destroy')->name('destroy');
+});
 
 
-// ROTAS DE AUTORES
+//Agrupamento de rotas LIVRO
 
-Route::get('/autores', [AutorController::class, 'index'])->name('autores.index');
+Route::prefix('livros')
+    ->controller(LivroController::class)
+    ->name('livros.')
+    ->group(function () {
 
-Route::get('/autores/create', [AutorController::class, 'create'])->name('autores.create');
+        Route::get('/', 'index')->name('index');
 
-Route::post('/autores', [AutorController::class, 'store'])->name('autores.store');
+        Route::get('/create', 'create')->name('create');
 
-Route::get('/autores/{autor}/edit', [AutorController::class, 'edit'])->name('autores.edit');
+        Route::post('/', 'store')->name('store');
 
-Route::put('/autores/{autor}', [AutorController::class, 'update'])->name('autores.update');
+        Route::get('/{livro}/edit', 'edit')->name('edit');
 
-Route::delete('/autores/{autor}', [AutorController::class, 'destroy'])->name('autores.destroy');
+        Route::put('/{livro}', 'update')->name('update');
 
-Route::get('/autores/{autor}', [AutorController::class, 'show'])->name('autores.show');
+        Route::delete('/{livro}', 'destroy')->name('destroy');
+
+        Route::get('/{livro}', 'show')->name('show');
+    });
+
+// Agrupamento de rotas AUTOR
+
+Route::prefix('autores')
+    ->controller(AutorController::class)
+    ->name('autores.')
+    ->group(function () {
+
+        Route::get('/', 'index')->name('index');
+
+        Route::get('/create', 'create')->name('create');
+
+        Route::post('/', 'store')->name('store');
+
+        Route::get('/{autor}/edit', 'edit')->name('edit');
+
+        Route::put('/{autor}', 'update')->name('update');
+
+        Route::delete('/{autor}', 'destroy')->name('destroy');
+
+        Route::get('/{autor}', 'show')->name('show');
+    });
