@@ -41,7 +41,7 @@ class LivroController extends Controller
         $livro->numero_paginas = $request->input('numero_paginas');
         $livro->save();
 
-        return redirect()->route('Livro.index');
+        return redirect()->route('index');
     }
 
     /**

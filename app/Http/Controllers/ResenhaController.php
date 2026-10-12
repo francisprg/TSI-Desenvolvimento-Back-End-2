@@ -29,16 +29,17 @@ class ResenhaController extends Controller
         $resenha = new Resenha();
         $resenha->texto = $request->input("texto");
 
-    
+
         $resenha->datapublicacao = $request->input("datapublicacao") ?? Carbon::now()->toDateString();
-
-
+        
         $resenha->save();
 
         return redirect()->route('resenhas.index');
     }
 
-  
+    /**
+     * Display the specified resource.
+     */
     public function show(Resenha $resenha)
     {
         return view("Resenha.show", [
@@ -46,7 +47,9 @@ class ResenhaController extends Controller
         ]);
     }
 
- 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Resenha $resenha)
     {
         return view('Resenha.edit', [
@@ -54,7 +57,9 @@ class ResenhaController extends Controller
         ]);
     }
 
-   
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Resenha $resenha)
     {
         $validated = $request->validate([
@@ -71,7 +76,6 @@ class ResenhaController extends Controller
     public function destroy(Resenha $resenha)
     {
         $resenha->delete();
-
 
         return redirect()->route('resenhas.index');
     }
