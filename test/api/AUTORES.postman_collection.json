@@ -1,0 +1,146 @@
+{
+  "info": {
+    "_postman_id": "17c4f1a1-80fd-4f69-b338-6bcc5f07f708",
+    "name": "AUTORES",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58883024",
+    "_collection_link": "https://go.postman.co/collection/58883024-17c4f1a1-80fd-4f69-b338-6bcc5f07f708?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "INDEX",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/autores/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "autores",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SHOW",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/autores/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "autores",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "STORE",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "nome",
+              "value": "Joao",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/autores/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "autores",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "nome",
+              "value": "Joao",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/autores/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "autores",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/autores/7",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "autores",
+            "7"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

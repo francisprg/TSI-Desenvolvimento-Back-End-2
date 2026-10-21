@@ -27,8 +27,8 @@ class ResenhaController extends Controller
     {
 
         $resenha = new Resenha();
-        $resenha->texto = $request->input("texto");
 
+        $resenha->texto = $request->input("texto");
 
         $resenha->datapublicacao = $request->input("datapublicacao") ?? Carbon::now()->toDateString();
         
