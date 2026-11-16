@@ -10,6 +10,8 @@
 
     <p><strong>ID:</strong> {{ $autor->id }}</p>
     <p><strong>Nome:</strong> {{ $autor->nome }}</p>
+    <strong>Bio: </strong> {{ $autor->bio }}</p>
+    
 
     <a href="{{ route('autores.edit', $autor) }}">Editar</a>
     <a href="{{ route('autores.index') }}">Voltar</a>

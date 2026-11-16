@@ -9,8 +9,22 @@ class Resenha extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'texto',
+        'user_id',
+        'livro_id',
         'datapublicacao'
     ];
+
+
+    public function user () {
+
+       return $this->belongsTo(User::class);
+    }
+
+    public function livro () {
+
+       return $this->belongsTo(Livro::class);
+    }
 }

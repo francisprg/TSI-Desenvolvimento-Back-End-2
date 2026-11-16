@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Resenha;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -9,21 +10,25 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
+  use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-      User::factory(10)->create();
+  /**
+   * Seed the application's database.
+   */
 
-      User::factory()->create([
-        'name' => 'Admin User',
-        'email' => 'admin@admin.test',
-        'is_admin' => true,
-        'password' => Hash::make('adminpass'),
-      ]);
-    }
+  public function run(): void
+  {
+    User::factory(10)->create();
+
+    User::factory()->create([
+      'name'     => 'Admin User',
+      'email'    => 'admin@admin.test',
+      'is_admin' => true,
+      'password' => Hash::make('adminpass'),
+    ]);
+
+    $this->call(LivroSeeder::class);
+
+    Resenha::factory(10)->create();
+  }
 }
-

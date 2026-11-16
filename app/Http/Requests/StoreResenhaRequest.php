@@ -23,7 +23,8 @@ class StoreResenhaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'texto' => 'required'
+            'texto'    => ['required', 'string'],
+            'livro_id' => ['required', 'integer', 'exists:livros,id'],
         ];
     }
 }

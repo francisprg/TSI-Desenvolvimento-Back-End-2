@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreResenhaRequest;
 use App\Models\Resenha;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 
 class ResenhaController extends Controller
@@ -23,20 +25,19 @@ class ResenhaController extends Controller
         return view("Resenha.create");
     }
 
-    public function store(Request $request)
+    public function store(StoreResenhaRequest $request)
     {
+        try {
+            
+            auth()->user()->resenhas()->create($request->validated());
 
-        $resenha = new Resenha();
-
-        $resenha->texto = $request->input("texto");
-
-        $resenha->datapublicacao = $request->input("datapublicacao") ?? Carbon::now()->toDateString();
-        
-        $resenha->save();
-
-        return redirect()->route('resenhas.index');
+            return redirect()->route('livros.index');
+        } catch (\Exception $e) {
+            return redirect()
+                ->route('resenhas.index')
+                ->with('error', 'Erro ao criar resenha.');
+        }
     }
-
     /**
      * Display the specified resource.
      */

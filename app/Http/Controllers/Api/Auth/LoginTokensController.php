@@ -18,8 +18,14 @@ class LoginTokensController extends LoginController
         try {
             $credentials = $request->validated();
             $user = $this->authenticate($credentials);
-            $ability[ ] = $user->is_admin ? 'is_admin' : [];
-            $token = $user->createToken($user->email, config("abilities.$ability"))->plainTextToken;
+
+            $ability = $user->is_admin ? 'is_admin' : 'user';
+
+            $token = $user->createToken(
+                $user->email,
+                config("abilities.$ability")
+            )->plainTextToken;
+
             return new UserResource($user)
                 ->additional(
                     [
@@ -46,6 +52,12 @@ class LoginTokensController extends LoginController
             return $this->errorHandler('Erro ao realizar logout', $error, 500);
         }
     }
+
+    public function user(Request $request)
+    {
+        return $request->user();
+    }
+
 
     public function revokeAllTokens(Request $request)
     {

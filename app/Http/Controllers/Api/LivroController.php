@@ -35,6 +35,9 @@ class LivroController extends ApiController
         }
     }
 
+
+
+
     public function update(UpdateLivroRequest $request, Livro $livro)
     {
         try {

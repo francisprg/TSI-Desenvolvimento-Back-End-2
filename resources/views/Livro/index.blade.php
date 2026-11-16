@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,14 +13,30 @@
 
     <ul>
         @foreach ($livros as $livro)
+        <br>
             <li>
-                <a href="{{route('livros.show', $livro)}}">{{$livro->id}}</a>
-                {{ $livro->titulo }} - {{ $livro->autor }}
-                <a href="{{ route('livros.edit', $livro) }}">Editar</a>
+                <a href="{{ route('livros.show', $livro) }}">
+                    {{ $livro->id }}
+                </a>
 
-                <form action="{{ route('livros.destroy', $livro) }}" method="POST" style="display:inline;">
+                {{ $livro->titulo }} -
+
+                <a href="{{route('autores.show', $livro->autor )}}">
+                {{ $livro->autor?->nome ?? 'Autor não informado' }}
+                </a>
+                <br>
+                <a href="{{ route('livros.edit', $livro) }}">
+                    <button>Editar</button>
+                </a>
+
+                <form
+                    action="{{ route('livros.destroy', $livro) }}"
+                    method="POST"
+                    style="display:inline;"
+                >
                     @csrf
                     @method('DELETE')
+
                     <button type="submit">Excluir</button>
                 </form>
             </li>

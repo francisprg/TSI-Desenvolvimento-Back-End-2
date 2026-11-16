@@ -20,7 +20,7 @@ class ResenhaController extends ApiController
     public function index()
     {
         return new ResenhaCollection(Resenha::paginate(10));
-    }   
+    }
 
 
     public function show(Resenha $resenha)
@@ -28,30 +28,32 @@ class ResenhaController extends ApiController
         return new ResenhaResource($resenha);
     }
 
-    
+
     public function store(StoreResenhaRequest $request)
     {
-        try{ 
-        return new StoredResenhaResource(Resenha::create($request->validated()));
-        }
-        catch (Exception $error) {
+        try {
+            return new StoredResenhaResource($request->user()
+                ->resenhas()
+                ->create($request->validated()));
+        } catch (Exception $error) {
             return $this->errorHandler("Erro ao criar nova Resenha", $error, 500);
         }
     }
-    
-    public function update (UpdateResenhaRequest $request, Resenha $resenha) {
 
-        try {  
+    public function update(UpdateResenhaRequest $request, Resenha $resenha)
+    {
+
+        try {
             $resenha->update($request->validated());
             return new UpdatedResenhaResource($resenha);
-        } catch(Exception $error) {
+        } catch (Exception $error) {
 
             return $this->errorHandler("Erro ao atualizar resenha", $error, 500);
         }
-    
     }
 
-    public function destroy(Resenha $resenha) {
+    public function destroy(Resenha $resenha)
+    {
 
         try {
             $resenha->delete();
@@ -59,9 +61,5 @@ class ResenhaController extends ApiController
         } catch (Exception $error) {
             return $this->errorHandler("Erro ao deletar resenha", $error, 500);
         }
-        
     }
-  
-
-  
 }

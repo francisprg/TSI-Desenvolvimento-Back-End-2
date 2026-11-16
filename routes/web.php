@@ -16,6 +16,7 @@ Route::get('/', function () {
 //Agrupamento de rotas RESENHA
 
 Route::prefix('resenhas')
+    ->middleware('auth')
     ->controller(ResenhaController::class)
     ->name('resenhas.')
     ->group(function () {

@@ -6,21 +6,46 @@ use App\Http\Controllers\Api\LivroController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\ResenhaController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 Route::apiResource('users', UserController::class)
-    ->only(['index', 'show', 'store', 'update', 'destroy'])
+    ->only(['index', 'show','update', 'destroy'])
     ->middleware('auth:sanctum')
     ->names([
         'index'   => 'api.users.index',
-        'show'    => 'api.users.show',
-        'store'   => 'api.users.store',
         'update'  => 'api.users.put',
         'destroy' => 'api.users.delete',
     ]);
 
+
+
+
+
+Route::apiResource('users', UserController::class)
+    ->only(['index'])
+    ->names([
+        'index'=> 'api.users.index',
+    ]);
+
+
+Route::middleware('web')->group(function () {
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class, 'logout']);
+
+    Route::get('/user', [LoginController::class, 'user'])
+        ->middleware('auth');
+});
+
+
+
+Route::apiResource('users', UserController::class)
+    ->only(['store'])
+    ->names([
+        'store'   => 'api.users.store',
+    ]);
 
     
 
@@ -55,6 +80,7 @@ Route::apiResource('autores', AutorController::class)
     ]);
 
 Route::apiResource('resenhas', ResenhaController::class)
+->middleware('auth:sanctum')
 ->only('index', 'show', 'store','destroy',  'update')
 ->names([
         'index' => 'api.resenhas.index',

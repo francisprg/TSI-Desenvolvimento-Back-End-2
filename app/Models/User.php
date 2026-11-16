@@ -15,6 +15,9 @@ use Laravel\Sanctum\HasApiTokens;
 #[Hidden([ 'remember_token'])]
 class User extends Authenticatable
 {
+
+
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -25,15 +28,17 @@ class User extends Authenticatable
      */
     protected function casts(): array
     {
-
-    /*
-    A senha do usuário é automaticamente criptografada pela Model User no
-    seu método casts() através do tipo hashed.F
-        
-    */
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+    public function resenhas () 
+    {
+
+       return $this->hasMany(Resenha::class);
+
     }
 }

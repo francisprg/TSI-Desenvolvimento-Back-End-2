@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'admin' => ['*'],
+    'is_admin' => ['*'],
 
     'user' => [
         'user:ler', 'user:editar', 'user:apagar',

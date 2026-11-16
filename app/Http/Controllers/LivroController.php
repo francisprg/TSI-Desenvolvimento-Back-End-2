@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLivroRequest;
 use App\Models\Livro;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class LivroController extends Controller
      */
     public function index()
     {
-        $livros = Livro::all();
+        $livros = Livro::with('autor')->get();
 
         return view('Livro.index', ['livros' => $livros]);
     }
@@ -28,19 +29,9 @@ class LivroController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreLivroRequest $request)
     {
-
-        $livro = new Livro();
-        $livro->titulo = $request->input('titulo');
-        $livro->autor = $request->input('autor');
-        $livro->isbn = $request->input('isbn');
-        $livro->editora = $request->input('editora');
-        $livro->ano_publicacao = $request->input('ano_publicacao');
-        $livro->sinopse = $request->input('sinopse');
-        $livro->numero_paginas = $request->input('numero_paginas');
-        $livro->save();
-
+        Livro::create($request->validated());
         return redirect()->route('index');
     }
 

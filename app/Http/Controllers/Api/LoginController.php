@@ -12,32 +12,46 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends ApiController
+
 {
-    public function authenticate(array $credentials ) {
-        
-        if(Auth::attempt($credentials))
-                return User::where('email', $credentials['email'])->first();
+    public function authenticate(array $credentials)
+    {
+
+        if (Auth::attempt($credentials))
+            return User::where('email', $credentials['email'])->first();
         return null;
     }
-    
-    public function Login(LoginRequest $request ): UserResource{ 
 
-        try{
+    public function user(Request $request)
+    {
+        return $request->user();
+    }   
+
+
+
+
+    public function login(LoginRequest $request)
+    {
         $credentials = $request->validated();
-        $user = $this->authenticate($credentials);
-            if(!$user)
-                throw new Exception("Dados invalidos");
-            return new UserResource($user)
-                ->additional(["message" =>'Usuario logado via cookies']);
-        } catch (Exception $error) {
-            return $this->errorHandler('Erro ao realizar login', $error, 500);
+
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Dados inválidos'
+            ], 401);
         }
+
+        $request->session()->regenerate();
+
+        return new UserResource(Auth::user());
     }
 
-    public function Logout (Request $request) {
+
+
+    public function Logout(Request $request)
+    {
 
         $user = Auth::guard('web')->user();
-        if(!$user)
+        if (!$user)
             return response()->json(['message' => "Nao autenticado"], 401);
         Auth::guard('web')->logout();
         $request->session()->invalidate();
