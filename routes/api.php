@@ -58,6 +58,9 @@ Route::prefix('token')->controller(LoginTokensController::class)->group(function
 
 
 
+Route::get('/livros/filter', [LivroController::class, 'filter']);
+
+
 Route::apiResource('livros', LivroController::class)
     ->only('index', 'show', 'store', 'destroy', 'update')
     ->names([
@@ -67,6 +70,9 @@ Route::apiResource('livros', LivroController::class)
         'destroy' => 'api.livros.delete',
         'update'  => 'api.livros.put',
     ]);
+
+
+
 
 Route::apiResource('autores', AutorController::class)
     ->parameters(['autores' => 'autor'])

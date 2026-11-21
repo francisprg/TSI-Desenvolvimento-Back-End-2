@@ -11,8 +11,7 @@ use App\Http\Resources\StoredLivroResource;
 use App\Http\Resources\UpdatedLivroResource;
 use App\Models\Livro;
 use Exception;
-
-
+use Illuminate\Http\Request;
 
 class LivroController extends ApiController
 {
@@ -37,10 +36,10 @@ class LivroController extends ApiController
 
 
 
-
-    public function update(UpdateLivroRequest $request, Livro $livro)
+    public function update(Request $request, Livro $livro)
     {
-        try {
+        try {   
+
             $livro->update($request->validated());
 
             return new UpdatedLivroResource($livro);
@@ -58,5 +57,22 @@ class LivroController extends ApiController
         } catch (Exception $error) {
             return $this->errorHandler('Erro ao deletar livro', $error, 500);
         }
+    }
+
+
+    public function filter(Request $request)
+    {
+
+        $idioma = $request->Input('idioma');
+
+        if (!$idioma) {
+            return response()->json([
+                'message' => 'Idioma não informado'
+            ], 400);
+        }
+
+        $livros = Livro::where('idioma', $idioma)->get();
+
+        return new LivroCollection($livros);
     }
 }

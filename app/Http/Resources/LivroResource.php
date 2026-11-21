@@ -20,6 +20,7 @@ class LivroResource extends JsonResource
             'titulo' => $this->titulo,
             'autor' => $this->autor,
             'resenha' => $this->resenhas,
+            'idioma' => $this->idioma,
             'isbn' => $this->isbn,
             'editora' => $this->editora,
             'ano_publicacao' => $this->ano_publicacao,
